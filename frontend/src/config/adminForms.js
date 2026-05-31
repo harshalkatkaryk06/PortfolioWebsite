@@ -16,7 +16,15 @@ export const formConfigs = {
   ],
 
   skills: [
-    { name: "categoryTitle", label: "Skill Category", type: "text" },
-    { name: "coreCompetencies", label: "Core Competencies", type: "textarea" }
-  ]
+  {
+    name: "category",
+    label: "Skill Category",
+    type: "text"
+  },
+  {
+    name: "coreCompetencies",
+    label: "Core Competencies",
+    type: "textarea"
+  }
+]
 };

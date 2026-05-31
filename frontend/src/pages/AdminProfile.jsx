@@ -1,5 +1,4 @@
-import { useState, useCallback } from "react";
-import Cropper from "react-easy-crop";
+import { useState } from "react";
 
 const AdminProfile = () => {
   const [profile, setProfile] = useState({
@@ -10,37 +9,17 @@ const AdminProfile = () => {
     image: null,
   });
 
-  const [imageSrc, setImageSrc] = useState(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setProfile({
-      ...profile,
-      [name]: value,
-    });
+    setProfile({ ...profile, [name]: value });
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImageSrc(imageUrl);
-
-      setProfile({
-        ...profile,
-        image: imageUrl,
-      });
-    }
+    setProfile({
+      ...profile,
+      image: URL.createObjectURL(e.target.files[0]),
+    });
   };
-
-  const onCropComplete = useCallback((_, croppedPixels) => {
-    setCroppedAreaPixels(croppedPixels);
-  }, []);
 
   return (
     <div className="min-h-screen bg-[#050505] text-white px-10 py-16">
@@ -59,54 +38,15 @@ const AdminProfile = () => {
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            className="text-gray-400 mb-6"
+            className="text-gray-400"
           />
 
-          {imageSrc && (
-            <>
-              {/* Cropper */}
-              <div className="relative w-full h-80 bg-gray-800 rounded-xl overflow-hidden">
-                <Cropper
-                  image={imageSrc}
-                  crop={crop}
-                  zoom={zoom}
-                  aspect={1}
-                  cropShape="round"
-                  showGrid={true}
-                  onCropChange={setCrop}
-                  onZoomChange={setZoom}
-                  onCropComplete={onCropComplete}
-                />
-              </div>
-
-              {/* Zoom Slider */}
-              <div className="mt-6">
-                <label className="block mb-2 text-gray-300">
-                  Zoom
-                </label>
-
-                <input
-                  type="range"
-                  min={1}
-                  max={3}
-                  step={0.1}
-                  value={zoom}
-                  onChange={(e) =>
-                    setZoom(Number(e.target.value))
-                  }
-                  className="w-full accent-green-400"
-                />
-              </div>
-
-              {/* Preview */}
-              <div className="mt-8 flex justify-center">
-                <img
-                  src={imageSrc}
-                  alt="Preview"
-                  className="w-32 h-32 rounded-full object-cover border-4 border-green-400"
-                />
-              </div>
-            </>
+          {profile.image && (
+            <img
+              src={profile.image}
+              alt="Preview"
+              className="w-32 h-32 rounded-full mt-4 object-cover border-2 border-green-400"
+            />
           )}
         </div>
 
@@ -115,7 +55,6 @@ const AdminProfile = () => {
           <label className="block mb-2 text-gray-300">
             Role
           </label>
-
           <input
             type="text"
             name="role"
@@ -130,7 +69,6 @@ const AdminProfile = () => {
           <label className="block mb-2 text-gray-300">
             Heading
           </label>
-
           <input
             type="text"
             name="heading"
@@ -145,7 +83,6 @@ const AdminProfile = () => {
           <label className="block mb-2 text-gray-300">
             Description
           </label>
-
           <textarea
             name="description"
             rows="6"

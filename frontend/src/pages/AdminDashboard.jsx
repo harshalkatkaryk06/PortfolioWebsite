@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const dashboardCards = [
   {
@@ -9,12 +10,12 @@ const dashboardCards = [
   {
     title: "Project Management",
     desc: "Add, edit, organize, and showcase your portfolio projects.",
-    route: "/admin/form/projects"
+    route: "/admin/projects"
   },
   {
     title: "Skills & Expertise",
     desc: "Manage technical competencies, categories, and displayed proficiency.",
-    route: "/admin/form/skills"
+    route: "/admin/skills"
   },
   {
     title: "Enquiries Inbox",
@@ -26,16 +27,37 @@ const dashboardCards = [
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully");
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen bg-[#050505] text-white px-10 py-16">
-      <h1 className="text-4xl font-bold text-green-400 mb-4">
-        Admin Dashboard
-      </h1>
 
-      <p className="text-gray-400 mb-12 text-lg">
-        Centralized control over your digital portfolio ecosystem.
-      </p>
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-10">
+        <div>
+          <h1 className="text-4xl font-bold text-green-400">
+            Admin Dashboard
+          </h1>
 
+          <p className="text-gray-400 text-lg mt-2">
+            Centralized control over your digital portfolio ecosystem.
+          </p>
+        </div>
+
+        {/* LOGOUT BUTTON */}
+        <button
+          onClick={handleLogout}
+          className="px-6 py-3 bg-red-500 text-white font-semibold rounded-xl hover:scale-105 transition"
+        >
+          Logout
+        </button>
+      </div>
+
+      {/* CARDS */}
       <div className="grid md:grid-cols-2 gap-8">
         {dashboardCards.map((card, index) => (
           <div
