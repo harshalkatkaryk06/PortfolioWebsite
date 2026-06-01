@@ -1,20 +1,73 @@
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
-import toast from "react-hot-toast";
+import BASE_URL from "../config/api";
 
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  const toastShown = useRef(false);
+const ProtectedRoute = ({
+  children,
+}) => {
+  const [loading, setLoading] =
+    useState(true);
+
+  const [
+    authenticated,
+    setAuthenticated,
+  ] = useState(false);
 
   useEffect(() => {
-    if (!token && !toastShown.current) {
-      toast.error("Please login first");
-      toastShown.current = true;
-    }
-  }, [token]);
+    let mounted = true;
 
-  if (!token) {
-    return <Navigate to="/" replace />;
+    const checkAuth = async () => {
+      try {
+        const res = await fetch(
+          `${BASE_URL}/api/auth/me`,
+          {
+            credentials: "include",
+          }
+        );
+
+        const data =
+          await res.json();
+
+        if (mounted) {
+          setAuthenticated(
+            res.ok &&
+              data.authenticated ===
+                true
+          );
+        }
+      } catch {
+        if (mounted) {
+          setAuthenticated(false);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    checkAuth();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center text-green-400">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return (
+      <Navigate
+        to="/admin/login"
+        replace
+      />
+    );
   }
 
   return children;

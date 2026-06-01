@@ -29,8 +29,6 @@ const AdminLogin = () => {
 
     const data = await loginAdmin(form);
 
-    localStorage.setItem("token", data.token);
-
     toast.success("Welcome back! Login successful.");
 
     navigate("/admin/dashboard");
@@ -83,6 +81,15 @@ const AdminLogin = () => {
             onChange={handleChange}
             className="w-full p-4 bg-gray-800 text-white rounded-xl outline-none border border-gray-700"
           />
+
+          <div className="text-right">
+            <Link
+              to="/forgot-password"
+              className="text-green-400 text-sm hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
 
           <button
             type="submit"

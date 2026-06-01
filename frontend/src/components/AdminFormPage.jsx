@@ -106,7 +106,6 @@ const AdminFormPage = () => {
   // =========================
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem("token");
 
       let endpoint = "";
       let method = "POST";
@@ -172,13 +171,13 @@ const AdminFormPage = () => {
       // API CALL
       // =========================
       const res = await fetch(endpoint, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      method,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
       const data = await res.json();
 

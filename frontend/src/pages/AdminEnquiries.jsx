@@ -15,23 +15,26 @@ const AdminEnquiries = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchEnquiries = async () => {
-    try {
-      const { data } = await axios.get(
-        ENQUIRY_API
-      );
+  try {
+    const { data } = await axios.get(
+      ENQUIRY_API,
+      {
+        withCredentials: true,
+      }
+    );
 
-      setEnquiries(data.enquiries || []);
-    } catch (error) {
-      console.error(
-        "Fetch Enquiries Error:",
-        error.response?.data || error.message
-      );
+    setEnquiries(data.enquiries || []);
+  } catch (error) {
+    console.error(
+      "Fetch Enquiries Error:",
+      error.response?.data || error.message
+    );
 
-      toast.error("Failed to load enquiries");
-    } finally {
-      setLoading(false);
-    }
-  };
+    toast.error("Failed to load enquiries");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchEnquiries();
@@ -40,7 +43,11 @@ const AdminEnquiries = () => {
   const handleMarkRead = async (id) => {
     try {
       await axios.patch(
-        `${ENQUIRY_API}/${id}/read`
+        `${ENQUIRY_API}/${id}/read`,
+        {},
+        {
+          withCredentials: true,
+        }
       );
 
       toast.success("Marked as read");
@@ -65,7 +72,11 @@ const AdminEnquiries = () => {
   const handleMarkUnread = async (id) => {
     try {
       await axios.patch(
-        `${ENQUIRY_API}/${id}/unread`
+        `${ENQUIRY_API}/${id}/unread`,
+        {},
+        {
+          withCredentials: true,
+        }
       );
 
       toast.success("Marked as unread");
@@ -90,7 +101,10 @@ const AdminEnquiries = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(
-        `${ENQUIRY_API}/${id}`
+        `${ENQUIRY_API}/${id}`,
+        {
+          withCredentials: true,
+        }
       );
 
       toast.success("Enquiry deleted");

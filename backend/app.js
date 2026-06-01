@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 // routes
 import authRoutes from "./src/routes/authRoutes.js";
@@ -19,7 +20,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// static folder for images (future use)
+// COOKIE PARSER
+app.use(cookieParser());
+
+// STATIC FILES
 app.use("/uploads", express.static("uploads"));
 
 // ---------------- CORS ----------------
@@ -34,6 +38,7 @@ app.use(
     credentials: true,
   })
 );
+
 // ---------------- ROUTES ----------------
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
@@ -47,10 +52,11 @@ app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-// ---------------- DB CONNECT + SERVER START ----------------
+// ---------------- START SERVER ----------------
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
+
     console.log("MongoDB Connected");
 
     const PORT = process.env.PORT || 4000;

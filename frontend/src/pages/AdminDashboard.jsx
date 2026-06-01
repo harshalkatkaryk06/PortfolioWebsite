@@ -27,11 +27,22 @@ const dashboardCards = [
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+  try {
+    await fetch(
+      `${import.meta.env.VITE_DEV_BACKEND_URI}/api/auth/logout`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+
     toast.success("Logged out successfully");
     navigate("/");
-  };
+  } catch (error) {
+    toast.error("Logout failed");
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#050505] text-white px-10 py-16">

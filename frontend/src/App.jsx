@@ -19,6 +19,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ComingSoon from "./pages/ComingSoon";
 import AdminSkills from "./pages/AdminSkills";
 import AdminEnquiries from "./pages/AdminEnquiries";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function Portfolio() {
   const heroRef = useRef(null);
@@ -130,9 +132,23 @@ function App() {
           />
 
           <Route
-            path="/admin/enquiries"
-            element={<AdminEnquiries />}
-          />
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+
+        <Route
+          path="/reset-password/:token"
+          element={<ResetPassword />}
+        />
+
+          <Route
+          path="/admin/enquiries"
+          element={
+            <ProtectedRoute>
+              <AdminEnquiries />
+            </ProtectedRoute>
+          }
+        />
           <Route path="/coming-soon" element={<ComingSoon />} />  
 
         </Routes>

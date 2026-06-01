@@ -12,13 +12,11 @@ import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.get("/", getProjects);
-
 router.post("/", protect, createProject);
+router.put("/:id", protect, updateProject);
+router.delete("/:id", protect, deleteProject);
 router.get("/:id", getProjectById);
 
 
-router.put("/:id", protect, updateProject);
-
-router.delete("/:id", protect, deleteProject);
 
 export default router;

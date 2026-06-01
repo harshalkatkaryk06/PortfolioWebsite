@@ -6,11 +6,11 @@ const router = express.Router();
 
 // create or update profile (protected)
 router.post("/", protect, upsertProfile);
+router.delete("/", protect, deleteProfile);
 
 // public read
 router.get("/", getProfile);
 
-// delete profile (should also be protected)
-router.delete("/", protect, deleteProfile);
+
 
 export default router;

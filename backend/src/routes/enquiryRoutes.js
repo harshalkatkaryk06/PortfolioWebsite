@@ -3,18 +3,22 @@ import express from "express";
 import {
   getAllEnquiries,
   markEnquiryRead,
+  markEnquiryUnread,
   deleteEnquiry,
-  markEnquiryUnread
 } from "../controllers/enquiryController.js";
+
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", getAllEnquiries);
+// ALL ENQUIRY MANAGEMENT REQUIRES AUTH
 
-router.patch("/:id/read", markEnquiryRead);
+router.get("/", protect, getAllEnquiries);
 
-router.delete("/:id", deleteEnquiry);
+router.patch("/:id/read", protect, markEnquiryRead);
 
-router.patch("/:id/unread", markEnquiryUnread);
+router.patch("/:id/unread", protect, markEnquiryUnread);
+
+router.delete("/:id", protect, deleteEnquiry);
 
 export default router;
