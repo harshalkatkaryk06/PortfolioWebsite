@@ -27,14 +27,27 @@ app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 
 // ---------------- CORS ----------------
-const allowedOrigin =
-  process.env.NODE_ENV === "production"
-    ? process.env.PROD_FRONTEND_URI
-    : process.env.DEV_FRONTEND_URI;
+const allowedOrigins = [
+  process.env.DEV_FRONTEND_URI,
+  process.env.PROD_FRONTEND_URI,
+];
 
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: (origin, callback) => {
+      // allow Postman or server-to-server requests
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(
+        new Error(`CORS blocked for origin: ${origin}`)
+      );
+    },
     credentials: true,
   })
 );
