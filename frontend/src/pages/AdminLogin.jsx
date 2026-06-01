@@ -100,7 +100,7 @@ const AdminLogin = () => {
           </button>
         </form>
 
-        <p className="text-gray-400 text-center mt-6">
+        {/* <p className="text-gray-400 text-center mt-6">
           Don’t have an account?{" "}
           <Link
             to="/admin/register"
@@ -108,7 +108,7 @@ const AdminLogin = () => {
           >
             Register
           </Link>
-        </p>
+        </p> */}
       </div>
     </div>
   );

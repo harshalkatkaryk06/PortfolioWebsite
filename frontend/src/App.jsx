@@ -69,7 +69,7 @@ function App() {
 
           {/* Auth */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/register" element={<AdminRegister />} />
+          {/* <Route path="/admin/register" element={<AdminRegister />} /> */}
 
           {/* Dashboard */}
           <Route
