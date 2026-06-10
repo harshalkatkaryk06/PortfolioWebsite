@@ -7,7 +7,7 @@ const AdminProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+const [activeCard, setActiveCard] = useState(null);
   const fetchProjects = async () => {
     try {
       setLoading(true);
@@ -95,6 +95,12 @@ const AdminProjects = () => {
             projects.map((project) => (
               <div
   key={project._id}
+  onClick={() =>
+    window.innerWidth < 768 &&
+    setActiveCard(
+      activeCard === project._id ? null : project._id
+    )
+  }
   className="group bg-gray-900 border border-gray-800 rounded-2xl p-6 relative hover:border-green-400 transition"
 >
   <h2 className="text-2xl font-semibold text-green-400 mb-3">
@@ -115,7 +121,12 @@ const AdminProjects = () => {
     : "Not specified"}
 </p>
 
-  <div className="absolute inset-0 bg-black/85 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-3 transition rounded-2xl flex-wrap">
+  <div className={`absolute inset-0 bg-black/85 flex items-center justify-center gap-3 transition rounded-2xl flex-wrap
+  ${
+    activeCard === project._id
+      ? "opacity-100"
+      : "opacity-0 md:group-hover:opacity-100"
+  }`}>
 
                   <button
                     onClick={() =>
