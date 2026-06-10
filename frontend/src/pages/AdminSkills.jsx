@@ -7,7 +7,7 @@ const AdminSkills = () => {
   const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+const [activeCard, setActiveCard] = useState(null);
   const fetchSkills = async () => {
     try {
       setLoading(true);
@@ -87,9 +87,15 @@ const AdminSkills = () => {
           {skills.length > 0 ? (
             skills.map((skill) => (
               <div
-                key={skill._id}
-                className="relative group bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-green-400 transition overflow-hidden"
-              >
+  key={skill._id}
+  onClick={() =>
+    window.innerWidth < 768 &&
+    setActiveCard(
+      activeCard === skill._id ? null : skill._id
+    )
+  }
+  className="relative group bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-green-400 transition overflow-hidden"
+>
 
                 {/* TITLE */}
                 <h2 className="text-2xl font-semibold text-green-400 mb-3">
@@ -110,7 +116,12 @@ const AdminSkills = () => {
                 </div>
 
                 {/* HOVER OVERLAY */}
-                <div className="absolute inset-0 bg-black/85 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-4 transition">
+                <div className={`absolute inset-0 bg-black/85 flex items-center justify-center gap-4 transition
+${
+  activeCard === skill._id
+    ? "opacity-100"
+    : "opacity-0 md:group-hover:opacity-100"
+}`}>
 
                   <button
                     onClick={() =>
