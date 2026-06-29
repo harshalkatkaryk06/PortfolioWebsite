@@ -65,6 +65,9 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/enquiries", enquiryRoutes);
+app.get("/ping", (req, res) => {
+  res.status(200).send("OK");
+});
 
 // 4. CATCH-ALL: anything that wasn't matched by an /api route or a static
 //    file above is treated as a frontend route (e.g. /admin/dashboard),
